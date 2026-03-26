@@ -2,31 +2,7 @@ import os
 import json
 import pandas as pd
 import matplotlib.pyplot as plt
-
-script_dir = os.path.dirname(os.path.abspath(__file__))
-project_root = os.path.dirname(script_dir)
-data_dir = os.path.join(project_root, "data")
-
-train_path = os.path.join(
-    data_dir,
-    "pan20-celebrity-profiling-training-dataset-2020-02-28",
-    "pan20-celebrity-profiling-training-dataset-2020-02-28",
-    "labels.ndjson"
-)
-
-supp_path = os.path.join(
-    data_dir,
-    "pan20-celebrity-profiling-supplement-dataset-2020-02-28",
-    "pan20-celebrity-profiling-supplement-dataset-2020-02-28",
-    "labels.ndjson"
-)
-
-test_path = os.path.join(
-    data_dir,
-    "pan20-celebrity-profiling-test-dataset-2020-02-28",
-    "pan20-celebrity-profiling-test-dataset-2020-02-28",
-    "labels.ndjson"
-)
+from _constants import train_label_path, supp_label_path, test_label_path, plots_dir
 
 
 def load_labels(filepath):
@@ -36,7 +12,7 @@ def load_labels(filepath):
             obj = json.loads(line)
             rows.append({
                 "gender": obj.get("gender"),
-                "age": obj.get("age"),
+                "age": obj.get("birthyear"),
                 "occupation": obj.get("occupation")
             })
     return pd.DataFrame(rows)
@@ -61,18 +37,18 @@ def compare_barplots(datasets, column, title, sort_index=False):
 
     fig.suptitle(title, fontsize=14)
     plt.tight_layout()
-    plt.show()
+    plt.savefig(os.path.join(plots_dir, f"{column}_distribution.png"))
 
 
 def main():
-    print("Train path:", train_path)
-    print("Supplement path:", supp_path)
-    print("Test path:", test_path)
+    print("Train path:", train_label_path)
+    print("Supplement path:", supp_label_path)
+    print("Test path:", test_label_path)
 
     datasets = {
-        "Train": load_labels(train_path),
-        "Supplement": load_labels(supp_path),
-        "Test": load_labels(test_path),
+        "Train": load_labels(train_label_path),
+        "Supplement": load_labels(supp_label_path),
+        "Test": load_labels(test_label_path),
     }
 
     compare_barplots(datasets, "gender", "Gender Distribution")
