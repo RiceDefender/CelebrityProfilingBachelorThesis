@@ -48,10 +48,10 @@ def tokenize(text):
 
 def init_stats():
     return defaultdict(lambda: {
-        "celeb_count": 0,          # Anzahl Celebrities pro Gender
-        "tweet_count": 0,          # Gesamtzahl Tweets
-        "pronoun_count": 0,        # Gesamtzahl Pronomen
-        "det_quant_count": 0       # Gesamtzahl Determiners + Quantifiers
+        "celeb_count": 0,          # Number of celebrities by gender
+        "tweet_count": 0,          # Total number of tweets
+        "pronoun_count": 0,        # Total number of pronouns
+        "det_quant_count": 0       # Total number of determiners and quantifiers
     })
 
 
@@ -174,10 +174,10 @@ if __name__ == "__main__":
     os.makedirs(plots_dir, exist_ok=True)
 
     train_stats = stream_analyze_dataset(train_label_path, train_feeds_path)
-    supp_stats = stream_analyze_dataset(supp_label_path, supp_feeds_path)
+    # supp_stats = stream_analyze_dataset(supp_label_path, supp_feeds_path)
     test_stats = stream_analyze_dataset(test_label_path, test_feeds_path)
 
-    all_stats = merge_stats(train_stats, supp_stats, test_stats)
+    all_stats = merge_stats(train_stats, test_stats)
 
     print("\nFinal stats:")
     for gender, s in all_stats.items():
