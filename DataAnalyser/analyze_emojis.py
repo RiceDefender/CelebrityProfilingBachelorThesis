@@ -12,46 +12,14 @@ from _constants import (
     plots_dir
 )
 
-
-# ---------------------------
-# CONFIG
-# ---------------------------
-REFERENCE_YEAR = 2020  # PAN 2020 Dataset
+from _analyze_helper import (
+    load_labels, age_group, merge_stats
+)
 
 
 # ---------------------------
 # HELPERS
 # ---------------------------
-def load_labels(path):
-    labels = {}
-    with open(path, "r", encoding="utf-8") as f:
-        for line in f:
-            line = line.strip()
-            if not line:
-                continue
-            obj = json.loads(line)
-            labels[obj["id"]] = {
-                "gender": obj["gender"],
-                "occupation": obj["occupation"],
-                "birthyear": int(obj["birthyear"])
-            }
-    return labels
-
-
-def age_group_from_birthyear(birthyear, reference_year=REFERENCE_YEAR):
-    age = reference_year - birthyear
-
-    if age < 20:
-        return "<20"
-    elif age < 30:
-        return "20-29"
-    elif age < 40:
-        return "30-39"
-    elif age < 50:
-        return "40-49"
-    else:
-        return "50+"
-
 
 def init_group_stats():
     return defaultdict(lambda: {
@@ -61,20 +29,6 @@ def init_group_stats():
         "tweets_with_emoji": 0,
         "emoji_counter": Counter()
     })
-
-
-def merge_group_stats(*stats_list):
-    merged = init_group_stats()
-
-    for stats in stats_list:
-        for group_name, values in stats.items():
-            merged[group_name]["celeb_count"] += values["celeb_count"]
-            merged[group_name]["tweet_count"] += values["tweet_count"]
-            merged[group_name]["emoji_count"] += values["emoji_count"]
-            merged[group_name]["tweets_with_emoji"] += values["tweets_with_emoji"]
-            merged[group_name]["emoji_counter"].update(values["emoji_counter"])
-
-    return merged
 
 
 def extract_emojis(tweet):
@@ -115,7 +69,7 @@ def analyze_dataset_emoji(label_path, feeds_path):
             meta = labels[celeb_id]
             gender = meta["gender"]
             occupation = meta["occupation"]
-            age_group = age_group_from_birthyear(meta["birthyear"])
+            age = age_group(meta["birthyear"])
 
             tweets = [tweet for follower in obj["text"] for tweet in follower]
 
@@ -152,11 +106,11 @@ def analyze_dataset_emoji(label_path, feeds_path):
             occupation_stats[occupation]["emoji_counter"].update(celeb_emoji_counter)
 
             # Age Group
-            age_stats[age_group]["celeb_count"] += 1
-            age_stats[age_group]["tweet_count"] += celeb_tweet_count
-            age_stats[age_group]["emoji_count"] += celeb_emoji_count
-            age_stats[age_group]["tweets_with_emoji"] += celeb_tweets_with_emoji
-            age_stats[age_group]["emoji_counter"].update(celeb_emoji_counter)
+            age_stats[age]["celeb_count"] += 1
+            age_stats[age]["tweet_count"] += celeb_tweet_count
+            age_stats[age]["emoji_count"] += celeb_emoji_count
+            age_stats[age]["tweets_with_emoji"] += celeb_tweets_with_emoji
+            age_stats[age]["emoji_counter"].update(celeb_emoji_counter)
 
             if i % 500 == 0:
                 print(f"Processed {i} celebrities from {os.path.basename(feeds_path)}")
@@ -260,9 +214,9 @@ if __name__ == "__main__":
     test_gender, test_occ, test_age = analyze_dataset_emoji(test_label_path, test_feeds_path)
 
     # Mergen
-    gender_stats = merge_group_stats(train_gender, test_gender)
-    occupation_stats = merge_group_stats(train_occ, test_occ)
-    age_stats = merge_group_stats(train_age, test_age)
+    gender_stats = merge_stats(train_gender, test_gender, init_stats=init_group_stats)
+    occupation_stats = merge_stats(train_occ, test_occ, init_stats=init_group_stats)
+    age_stats = merge_stats(train_age, test_age, init_stats=init_group_stats)
 
     # Summary
     print_summary(gender_stats, "Gender")

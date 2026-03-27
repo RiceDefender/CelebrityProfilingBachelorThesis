@@ -12,6 +12,8 @@ from _constants import (
     plots_dir
 )
 
+from _analyze_helper import merge_stats
+
 PERSONAL_PRONOUNS = {
     "i", "you", "he", "she", "it", "we", "they",
     "me", "him", "her", "us", "them",
@@ -99,16 +101,6 @@ def stream_analyze_dataset(label_path, feeds_path):
     return stats
 
 
-def merge_stats(*stats_list):
-    merged = init_stats()
-
-    for stats in stats_list:
-        for gender, values in stats.items():
-            for key, value in values.items():
-                merged[gender][key] += value
-
-    return merged
-
 
 def plot_avg_tweets_per_celebrity(stats):
     genders = []
@@ -177,7 +169,7 @@ if __name__ == "__main__":
     # supp_stats = stream_analyze_dataset(supp_label_path, supp_feeds_path)
     test_stats = stream_analyze_dataset(test_label_path, test_feeds_path)
 
-    all_stats = merge_stats(train_stats, test_stats)
+    all_stats = merge_stats(train_stats, test_stats, init_stats=init_stats)
 
     print("\nFinal stats:")
     for gender, s in all_stats.items():
