@@ -1,0 +1,6 @@
+# Used for orchestration and data processing
+transformers>=5.5.0
+scikit-learn>=1.8.0
+
+# Used in preprocessing and data analysis
+matplotlib>=3.10.8
