@@ -6,5 +6,8 @@ MAX_CHARS = 10000
 
 INCLUDE_SUPP = False
 
-OUTPUT_DIRNAME = "sbert_vectors"
+OUTPUT_DIRNAME = "sbert_vectors_chunked"
 NORMALIZE_EMBEDDINGS = True
+
+USE_CHUNKING = True
+TWEETS_PER_CHUNK = 12

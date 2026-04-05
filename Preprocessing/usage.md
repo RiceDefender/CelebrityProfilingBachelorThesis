@@ -2,7 +2,7 @@ Here is an example of how to use the preprocessing functions in this module:
 
 ```bash
 cd .. # Go to the root directory of the repository (CelebrityProfilingBachelorThesis)
-python Preprocessing/build_hf_dataset.py --split train --max-followers 3 --max-tweets-per-follower 20 --max-chars 10000 --debug
+python -m Preprocessing.build_hf_dataset --split train --chunk --max-followers 3 --max-tweets-per-follower 20 --tweets-per-chunk 12 --max-chars 3000 --debug
 ```
 
 This command will run the `build_hf_dataset.py` script with the following arguments:
@@ -21,7 +21,7 @@ These parameters directly influence:
 To save the preprocessed dataset, you can use the `--save` argument followed by the desired file name:
 
 ```bash
-python Preprocessing/build_hf_dataset.py --split train --max-followers 3 --max-tweets-per-follower 20 --max-chars 10000 --save-jsonl artifacts/train_hf.jsonl
+python -m Preprocessing.build_hf_dataset --split train --chunk --max-followers 3 --max-tweets-per-follower 20 --tweets-per-chunk 12 --max-chars 3000 --debug --save-jsonl artifacts/train_hf.jsonl
 ```
 This command will save the preprocessed dataset in JSONL format to the specified path (`artifacts/train_hf.jsonl`).
 

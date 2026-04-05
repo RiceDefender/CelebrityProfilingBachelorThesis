@@ -16,10 +16,11 @@ from _constants import (
     test_feeds_path,
 )
 
-from io_utils import load_ndjson, save_jsonl
-from normalize import TWEET_SEP, FOLLOWER_SEP
-from pan_parser import extract_label_record, aggregate_feeds_by_id
-from aggregation import build_examples
+from Preprocessing.io_utils import load_ndjson, save_jsonl
+from Preprocessing.normalize import TWEET_SEP, FOLLOWER_SEP
+from Preprocessing.pan_parser import extract_label_record, aggregate_feeds_by_id
+from Preprocessing.aggregation import build_examples
+from Preprocessing.chunking import build_chunked_examples
 
 
 def resolve_paths(split: str) -> Tuple[str, str]:
@@ -32,6 +33,38 @@ def resolve_paths(split: str) -> Tuple[str, str]:
         return test_label_path, test_feeds_path
     raise ValueError(f"Unbekannter split: {split}")
 
+def build_dataset_examples(
+    labels,
+    feed_map,
+    tweet_sep,
+    follower_sep,
+    use_chunking=False,
+    tweets_per_chunk=12,
+    max_followers=None,
+    max_tweets_per_follower=None,
+    max_chars=None,
+):
+    if use_chunking:
+        return build_chunked_examples(
+            labels=labels,
+            feed_map=feed_map,
+            tweet_sep=tweet_sep,
+            tweets_per_chunk=tweets_per_chunk,
+            max_followers=max_followers,
+            max_tweets_per_follower=max_tweets_per_follower,
+            max_chars=max_chars,
+        )
+
+    return build_examples(
+        labels=labels,
+        feed_map=feed_map,
+        tweet_sep=tweet_sep,
+        follower_sep=follower_sep,
+        max_followers=max_followers,
+        max_tweets_per_follower=max_tweets_per_follower,
+        max_chars=max_chars,
+    )
+
 
 def main():
     parser = argparse.ArgumentParser(description="Build HF-ready dataset v2")
@@ -41,6 +74,8 @@ def main():
     parser.add_argument("--max-chars", type=int, default=10000)
     parser.add_argument("--save-jsonl", type=str, default=None)
     parser.add_argument("--debug", action="store_true")
+    parser.add_argument("--chunk", action="store_true", help="Build chunked examples instead of one text per celebrity")
+    parser.add_argument("--tweets-per-chunk", type=int, default=12)
     args = parser.parse_args()
 
     label_path, feed_path = resolve_paths(args.split)
@@ -62,11 +97,13 @@ def main():
     print(f"[{args.split}] Feed-Zeilen geladen: {len(feed_rows)}")
     print(f"[{args.split}] Feed-IDs erkannt: {len(feed_map)}")
 
-    examples = build_examples(
+    examples = build_dataset_examples(
         labels=labels,
         feed_map=feed_map,
         tweet_sep=TWEET_SEP,
         follower_sep=FOLLOWER_SEP,
+        use_chunking=args.chunk,
+        tweets_per_chunk=args.tweets_per_chunk,
         max_followers=args.max_followers,
         max_tweets_per_follower=args.max_tweets_per_follower,
         max_chars=args.max_chars,
@@ -74,18 +111,22 @@ def main():
 
     print(f"[{args.split}] Beispiele gebaut: {len(examples)}")
 
+    # Debug-Ausgabe des ersten Beispiels
     if examples:
         print("\n[DEBUG] Erstes Beispiel:")
-        print({
-            "id": examples[0]["id"],
-            "birthyear": examples[0]["birthyear"],
-            "gender": examples[0]["gender"],
-            "occupation": examples[0]["occupation"],
-            "num_followers_used": examples[0]["num_followers_used"],
-            "num_chars": examples[0]["num_chars"],
+        preview = {
             "text_preview": examples[0]["text"][:500],
-        })
+            "num_chars": examples[0]["num_chars"],
+        }
 
+        for key in ["id", "celebrity_id", "chunk_id", "birthyear", "gender", "occupation", "num_followers_used",
+                    "num_tweets_in_chunk"]:
+            if key in examples[0]:
+                preview[key] = examples[0][key]
+
+        print(preview)
+
+    # Optional: Speichern als JSONL
     if args.save_jsonl:
         save_jsonl(args.save_jsonl, examples)
         print(f"\nGespeichert: {args.save_jsonl}")

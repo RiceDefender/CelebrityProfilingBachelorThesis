@@ -7,10 +7,13 @@ MAX_CHARS = 10000
 
 INCLUDE_SUPP = False
 
-OUTPUT_DIRNAME = "bert_tokenized"
+OUTPUT_DIRNAME = "bert_tokenized_chunked" # evtl. OUTPUT_DIRNAME = f"bert_tokenized_chunked_{TWEETS_PER_CHUNK}" (Parameterize den Ordnernamen mit der Anzahl der Tweets pro Chunk)
 
 URL_TOKEN = "[URL]"
 MENTION_TOKEN = "[MENTION]"
 
 BATCH_SIZE = 32
 SAVE_PRETTY_JSON = False
+
+USE_CHUNKING = True
+TWEETS_PER_CHUNK = 12

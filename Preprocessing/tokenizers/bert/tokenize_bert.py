@@ -20,7 +20,7 @@ from _constants import (
 from Preprocessing.io_utils import load_ndjson
 from Preprocessing.normalize import TWEET_SEP, FOLLOWER_SEP, URL_TOKEN, MENTION_TOKEN
 from Preprocessing.pan_parser import extract_label_record, aggregate_feeds_by_id
-from Preprocessing.build_hf_dataset import build_examples
+from Preprocessing.build_hf_dataset import build_examples, build_dataset_examples
 from Preprocessing.tokenizers.bert.config_bert import (
     MODEL_NAME,
     MAX_LENGTH,
@@ -28,6 +28,8 @@ from Preprocessing.tokenizers.bert.config_bert import (
     MAX_TWEETS_PER_FOLLOWER,
     MAX_CHARS,
     OUTPUT_DIRNAME,
+    USE_CHUNKING,
+    TWEETS_PER_CHUNK,
 )
 
 
@@ -56,11 +58,13 @@ def main():
     labels = [extract_label_record(r) for r in label_rows]
     feed_map = aggregate_feeds_by_id(feed_rows)
 
-    examples = build_examples(
+    examples = build_dataset_examples(
         labels=labels,
         feed_map=feed_map,
         tweet_sep=TWEET_SEP,
         follower_sep=FOLLOWER_SEP,
+        use_chunking=USE_CHUNKING,
+        tweets_per_chunk=TWEETS_PER_CHUNK,
         max_followers=MAX_FOLLOWERS,
         max_tweets_per_follower=MAX_TWEETS_PER_FOLLOWER,
         max_chars=MAX_CHARS,
@@ -99,7 +103,8 @@ def main():
 
         tokenized_examples.append(
             {
-                "id": ex["id"],
+                "celebrity_id": ex.get("celebrity_id", ex.get("id")),
+                "chunk_id": ex.get("chunk_id"),
                 "input_ids": tokens["input_ids"],
                 "attention_mask": tokens["attention_mask"],
                 "birthyear": ex["birthyear"],

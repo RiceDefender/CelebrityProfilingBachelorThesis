@@ -1,7 +1,7 @@
 from collections import defaultdict
 from typing import Any, Dict, Iterable, List, Optional
 
-from normalize import normalize_tweet
+from Preprocessing.normalize import normalize_tweet
 
 
 def first_present(record: Dict[str, Any], keys: Iterable[str]) -> Optional[Any]:
