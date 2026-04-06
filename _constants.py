@@ -43,3 +43,17 @@ test_feeds_path = os.path.join(test_path, follower_feeds_name)
 
 # plot directory
 plots_dir = os.path.join(root_dir, "plots")
+
+# Price & Hodge comparison data
+price_hodge_path = os.path.join(data_dir, "price_hodge")
+
+# full prediction file from Price & Hodge
+price_hodge_label_path = os.path.join(price_hodge_path, label_name)
+
+# diff file: only mismatches, useful for sanity checks / error inspection
+price_hodge_diff_path = os.path.join(price_hodge_path, "diff.txt")
+
+# comparison output dirs
+comparison_dir = os.path.join(root_dir, "comparison")
+comparison_plots_dir = os.path.join(comparison_dir, "plots")
+comparison_tables_dir = os.path.join(comparison_dir, "tables")
