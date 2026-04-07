@@ -1,6 +1,6 @@
 import unittest
 from statistics import mean
-import pan19_celebs_evaluator as pev
+import pan20_celebrity_profiling_evaluator as pev
 
 class TestRecallPrecision(unittest.TestCase):
 
