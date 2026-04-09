@@ -8,3 +8,4 @@ venv/
 plots/
 comparison/
 ExistingEvaluationCode/labels.ndjson
+outputs/
