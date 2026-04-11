@@ -9,3 +9,9 @@ If you want to train the model on a specific target, you can replace `all` with 
 ```bash
 python -m Models.BERT.train_bert --target occupation
 ```
+
+For GPU usage you need to install the `torch` library with CUDA support. You can do this by running:
+
+```bash
+pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
+```
