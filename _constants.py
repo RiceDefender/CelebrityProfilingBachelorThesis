@@ -93,3 +93,32 @@ bert_checkpoints_dir = os.path.join(bert_output_dir, "checkpoints")
 bert_logs_dir = os.path.join(bert_output_dir, "logs")
 bert_predictions_dir = os.path.join(bert_output_dir, "predictions")
 bert_metrics_dir = os.path.join(bert_output_dir, "metrics")
+
+# -------------------------------------------------------------------
+# SBERT preprocessing directories
+# -------------------------------------------------------------------
+sbert_vectorizer_dir = os.path.join(preprocessing_dir, "vectorizers", "sbert")
+
+sbert_processed_dir = os.path.join(preprocessing_data_dir, "sbert_vectors_chunked")
+sbert_train_processed_dir = sbert_processed_dir
+sbert_test_processed_dir = sbert_processed_dir
+sbert_supp_processed_dir = sbert_processed_dir
+
+sbert_train_vectors_path = os.path.join(sbert_train_processed_dir, "train_vectors.json")
+sbert_test_vectors_path = os.path.join(sbert_test_processed_dir, "test_vectors.json")
+sbert_supp_vectors_path = os.path.join(sbert_supp_processed_dir, "supp_vectors.json")
+
+sbert_train_meta_path = os.path.join(sbert_train_processed_dir, "train_meta.json")
+sbert_test_meta_path = os.path.join(sbert_test_processed_dir, "test_meta.json")
+sbert_supp_meta_path = os.path.join(sbert_supp_processed_dir, "supp_meta.json")
+
+# -------------------------------------------------------------------
+# SBERT model / outputs
+# -------------------------------------------------------------------
+sbert_model_dir = os.path.join(models_dir, "SBERT")
+
+sbert_output_dir = os.path.join(outputs_dir, "sbert_mvp")
+sbert_checkpoints_dir = os.path.join(sbert_output_dir, "checkpoints")
+sbert_logs_dir = os.path.join(sbert_output_dir, "logs")
+sbert_predictions_dir = os.path.join(sbert_output_dir, "predictions")
+sbert_metrics_dir = os.path.join(sbert_output_dir, "metrics")
