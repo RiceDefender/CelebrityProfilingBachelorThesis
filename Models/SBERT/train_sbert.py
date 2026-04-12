@@ -37,6 +37,7 @@ from Models.SBERT.config_sbert_model import (
     SAVE_PREDICTIONS,
     EARLY_STOPPING_PATIENCE,
     EARLY_STOPPING_MIN_DELTA,
+    EARLY_STOPPING_ENABLED,
 )
 
 
@@ -332,9 +333,9 @@ def train_one_target(target_label: str) -> RunArtifacts:
             best_state = {k: v.cpu().clone() for k, v in model.state_dict().items()}
             epochs_without_improvement = 0
         else:
-            epochs_without_improvement += 1
-
-        if epochs_without_improvement >= EARLY_STOPPING_PATIENCE:
+            if EARLY_STOPPING_ENABLED:
+                epochs_without_improvement += 1
+        if EARLY_STOPPING_ENABLED and epochs_without_improvement >= EARLY_STOPPING_PATIENCE:
             print(f"[{target_label}] Early stopping triggered at epoch {epoch}")
             break
 
