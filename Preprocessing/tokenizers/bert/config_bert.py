@@ -12,7 +12,6 @@ OUTPUT_DIRNAME = "bert_tokenized_chunked" # evtl. OUTPUT_DIRNAME = f"bert_tokeni
 URL_TOKEN = "[URL]"
 MENTION_TOKEN = "[MENTION]"
 
-BATCH_SIZE = 32
 SAVE_PRETTY_JSON = False
 
 USE_CHUNKING = True
