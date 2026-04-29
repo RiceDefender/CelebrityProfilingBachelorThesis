@@ -69,11 +69,23 @@ def load_json(path: str):
 # ---------------------------------------------------------
 SUPPORTED_TARGETS = ["occupation", "gender", "birthyear"]
 
+BIRTHYEAR_BUCKETS = ["1994", "1985", "1975", "1963", "1947"]
+
 FIXED_LABELS = {
     "occupation": ["sports", "performer", "creator", "politics"],
     "gender": ["male", "female"],
-    # birthyear wird dynamisch aus den Trainingsdaten gebaut
+    "birthyear": BIRTHYEAR_BUCKETS,
 }
+
+def map_birthyear_to_bucket(year):
+    """
+    Maps exact birthyear to the 5 PAN-style representative birthyear buckets.
+    Buckets are chosen by nearest representative year.
+    """
+    year = int(year)
+    bucket_years = [int(y) for y in BIRTHYEAR_BUCKETS]
+    nearest = min(bucket_years, key=lambda b: abs(year - b))
+    return str(nearest)
 
 
 # ---------------------------------------------------------
@@ -93,7 +105,7 @@ class TokenizedChunkDataset(Dataset):
 
         label_value = row[self.target_label]
         if self.target_label == "birthyear":
-            label_value = str(label_value)
+            label_value = map_birthyear_to_bucket(label_value)
 
         item = {
             "input_ids": torch.tensor(row["input_ids"], dtype=torch.long),
@@ -160,7 +172,7 @@ def aggregate_by_celebrity(rows, logits, label2id, id2label, target_label, metho
 
         true_value = row[target_label]
         if target_label == "birthyear":
-            true_value = str(true_value)
+            true_value = map_birthyear_to_bucket(true_value)
         grouped_true[cid] = label2id[true_value]
 
     y_true = []
@@ -254,9 +266,9 @@ def train_one_target(target_label, train_rows, test_rows):
     model.resize_token_embeddings(len(tokenizer))
 
     target_output_dir = os.path.join(bert_output_dir, target_label)
-    ckpt_dir = os.path.join(target_output_dir, "checkpoints")
-    pred_dir = os.path.join(target_output_dir, "predictions")
-    metrics_dir = os.path.join(target_output_dir, "metrics")
+    ckpt_dir = os.path.join(target_output_dir, "checkpoints_v1")
+    pred_dir = os.path.join(target_output_dir, "predictions_v1")
+    metrics_dir = os.path.join(target_output_dir, "metrics_v1")
 
     ensure_dir(ckpt_dir)
     ensure_dir(pred_dir)
@@ -336,10 +348,10 @@ def train_one_target(target_label, train_rows, test_rows):
     save_json(val_celeb_preds, os.path.join(pred_dir, f"{target_label}_val_celeb_predictions.json"))
     save_json(test_celeb_preds, os.path.join(pred_dir, f"{target_label}_test_celeb_predictions.json"))
 
-    print(f"[{target_label}] Validation chunk metrics: {val_chunk_metrics}")
-    print(f"[{target_label}] Validation celebrity metrics: {val_celeb_metrics}")
-    print(f"[{target_label}] Test chunk metrics: {test_chunk_metrics}")
-    print(f"[{target_label}] Test celebrity metrics: {test_celeb_metrics}")
+    print(f"[{target_label}] Validation chunk metrics_v1: {val_chunk_metrics}")
+    print(f"[{target_label}] Validation celebrity metrics_v1: {val_celeb_metrics}")
+    print(f"[{target_label}] Test chunk metrics_v1: {test_chunk_metrics}")
+    print(f"[{target_label}] Test celebrity metrics_v1: {test_celeb_metrics}")
 
     return all_metrics
 

@@ -15,7 +15,7 @@ def parse_input():
                             [1] a list of dicts with the true classes.
     """
     parser = ArgumentParser()
-    parser.add_argument("-p", "--predictions", help="path to the dir holding the predicted labels.ndjson")
+    parser.add_argument("-p", "--predictions_v1", help="path to the dir holding the predicted labels.ndjson")
     parser.add_argument("-t", "--truth", help="path to the dir holding the true labels.ndjson")
     parser.add_argument("-o", "--output", help="path to the dir to write the results to")
     args = parser.parse_args()
@@ -40,11 +40,11 @@ def is_valid(pred, tr):
     truth_cids = set(tr.keys())
     pred_cids = set(pred.keys())
     if truth_cids != pred_cids:
-        print("Invalid output file, predictions for some id's are missing.", file=stderr)
+        print("Invalid output file, predictions_v1 for some id's are missing.", file=stderr)
 
     for pre in pred.values():
         if pre.keys() != {"id", "occupation", "birthyear", "gender"}:
-            print("Invalid output, missing keys in predictions.", file=stderr)
+            print("Invalid output, missing keys in predictions_v1.", file=stderr)
 
 
 def write_output(filename, k, v):
@@ -113,7 +113,7 @@ if __name__ == "__main__":
     """
     This is the evaluator for the PAN@CLEF20 Task "Celebrity Profiling"
     It outputs 4 Metrics: 
-      - cRank, the harmonic mean of the sub metrics below. This is the primary metric. 
+      - cRank, the harmonic mean of the sub metrics_v1 below. This is the primary metric. 
       - F1_gender, the harmonic mean of the average multi class precision and recall for gender prediction
       - F1_occupation, same as above for occupation
       - F1_age, same as above, but positives are calculated leniently in a window around the prediction

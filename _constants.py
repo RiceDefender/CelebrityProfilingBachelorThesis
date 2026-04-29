@@ -122,3 +122,13 @@ sbert_checkpoints_dir = os.path.join(sbert_output_dir, "checkpoints")
 sbert_logs_dir = os.path.join(sbert_output_dir, "logs")
 sbert_predictions_dir = os.path.join(sbert_output_dir, "predictions")
 sbert_metrics_dir = os.path.join(sbert_output_dir, "metrics")
+
+# -------------------------------------------------------------------
+# SBERT V2 model / outputs
+# Logistic Regression + Chunk Voting
+# -------------------------------------------------------------------
+sbert_v2_output_dir = os.path.join(outputs_dir, "sbert_v2")
+sbert_v2_checkpoints_dir = os.path.join(sbert_v2_output_dir, "checkpoints")
+sbert_v2_predictions_dir = os.path.join(sbert_v2_output_dir, "predictions")
+sbert_v2_metrics_dir = os.path.join(sbert_v2_output_dir, "metrics")
+sbert_v2_test_metrics_dir = os.path.join(sbert_v2_output_dir, "test_metrics")
