@@ -132,3 +132,42 @@ sbert_v2_checkpoints_dir = os.path.join(sbert_v2_output_dir, "checkpoints")
 sbert_v2_predictions_dir = os.path.join(sbert_v2_output_dir, "predictions")
 sbert_v2_metrics_dir = os.path.join(sbert_v2_output_dir, "metrics")
 sbert_v2_test_metrics_dir = os.path.join(sbert_v2_output_dir, "test_metrics")
+
+# -------------------------------------------------------------------
+# BERTweet preprocessing directories
+# -------------------------------------------------------------------
+bertweet_tokenizer_dir = os.path.join(tokenizers_dir, "bertweet")
+
+bertweet_processed_dir = os.path.join(preprocessing_data_dir, "bertweet_tokenized_chunked")
+bertweet_train_processed_dir = bertweet_processed_dir
+bertweet_test_processed_dir = bertweet_processed_dir
+bertweet_supp_processed_dir = bertweet_processed_dir
+
+bertweet_train_tokenized_path = os.path.join(
+    bertweet_train_processed_dir,
+    "train_tokenized.ndjson",
+)
+bertweet_test_tokenized_path = os.path.join(
+    bertweet_test_processed_dir,
+    "test_tokenized.ndjson",
+)
+bertweet_supp_tokenized_path = os.path.join(
+    bertweet_supp_processed_dir,
+    "supp_tokenized.ndjson",
+)
+
+bertweet_train_meta_path = os.path.join(bertweet_train_processed_dir, "train_meta.json")
+bertweet_test_meta_path = os.path.join(bertweet_test_processed_dir, "test_meta.json")
+bertweet_supp_meta_path = os.path.join(bertweet_supp_processed_dir, "supp_meta.json")
+
+# -------------------------------------------------------------------
+# BERTweet V3 model / outputs
+# -------------------------------------------------------------------
+bertweet_model_dir = os.path.join(models_dir, "BERTweet")
+
+bertweet_v3_output_dir = os.path.join(outputs_dir, "bertweet_v3")
+bertweet_v3_checkpoints_dir = os.path.join(bertweet_v3_output_dir, "checkpoints")
+bertweet_v3_logs_dir = os.path.join(bertweet_v3_output_dir, "logs")
+bertweet_v3_predictions_dir = os.path.join(bertweet_v3_output_dir, "predictions")
+bertweet_v3_metrics_dir = os.path.join(bertweet_v3_output_dir, "metrics")
+bertweet_v3_test_metrics_dir = os.path.join(bertweet_v3_output_dir, "test_metrics")
