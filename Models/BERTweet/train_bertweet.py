@@ -106,9 +106,25 @@ def map_birthyear_to_bucket(year) -> str:
 
 
 def get_label(row: dict, target: str) -> str:
+    if target == "creator_binary":
+        return "creator" if row["occupation"] == "creator" else "not_creator"
+
+    if target == "occupation_3class":
+        occupation = row["occupation"]
+
+        if occupation == "creator":
+            raise ValueError(
+                "occupation_3class received a creator row. "
+                "Filter creator rows before training."
+            )
+
+        return str(occupation)
+
     label = row[target]
+
     if target == "birthyear":
         label = map_birthyear_to_bucket(label)
+
     return str(label)
 
 
@@ -496,6 +512,14 @@ def train_one_target(target: str):
 
     rows = load_json_or_ndjson(bertweet_train_tokenized_path)
 
+    if target == "occupation_3class":
+        before = len(rows)
+        rows = [row for row in rows if row["occupation"] != "creator"]
+        after = len(rows)
+
+        print(f"[INFO] occupation_3class: filtered creator rows {before} -> {after}")
+
+
     label_to_id, id_to_label = build_label_maps(target)
 
     grouped, celebrity_to_label = group_rows_by_celebrity(rows, target)
@@ -626,6 +650,10 @@ def train_one_target(target: str):
 def resolve_targets(target: str):
     if target == "all":
         return ["occupation", "gender", "birthyear"]
+
+    if target == "v31_occupation":
+        return ["creator_binary", "occupation_3class"]
+
     return [target]
 
 
@@ -633,7 +661,15 @@ def main():
     parser = argparse.ArgumentParser(description="Train BERTweet V3")
     parser.add_argument(
         "--target",
-        choices=["occupation", "gender", "birthyear", "all"],
+        choices=[
+            "occupation",
+            "gender",
+            "birthyear",
+            "creator_binary",
+            "occupation_3class",
+            "v31_occupation",
+            "all",
+        ],
         default=TARGET_LABEL,
     )
 
