@@ -62,6 +62,15 @@ def load_json(path: str) -> List[dict]:
     with open(path, "r", encoding="utf-8") as f:
         return json.load(f)
 
+BIRTHYEAR_BUCKETS = ["1994", "1985", "1975", "1963", "1947"]
+
+
+def map_birthyear_to_bucket(year) -> str:
+    year = int(year)
+    bucket_years = [int(y) for y in BIRTHYEAR_BUCKETS]
+    nearest = min(bucket_years, key=lambda b: abs(year - b))
+    return str(nearest)
+
 
 # -------------------------------------------------------------------
 # Aggregation
@@ -87,7 +96,11 @@ def aggregate_embeddings_by_celebrity(
         emb = np.asarray(row["embedding"], dtype=np.float32)
 
         grouped_embeddings[celebrity_id].append(emb)
-        grouped_labels[celebrity_id] = row[target_label]
+        label_value = row[target_label]
+        if target_label == "birthyear":
+            label_value = map_birthyear_to_bucket(label_value)
+
+        grouped_labels[celebrity_id] = str(label_value)
 
     celebrity_ids = sorted(grouped_embeddings.keys())
 
@@ -127,8 +140,7 @@ def build_label_mapping(target_label: str, y_raw: List[str]) -> Dict[str, int]:
         return {label: idx for idx, label in enumerate(present)}
 
     if target_label == "birthyear":
-        years = sorted({int(y) for y in y_raw})
-        return {str(year): idx for idx, year in enumerate(years)}
+        return {label: idx for idx, label in enumerate(BIRTHYEAR_BUCKETS)}
 
     raise ValueError(f"Unsupported target label: {target_label}")
 
@@ -345,7 +357,7 @@ def train_one_target(target_label: str) -> RunArtifacts:
     model.load_state_dict(best_state)
     model.eval()
 
-    # Final validation predictions with best model
+    # Final validation predictions_v1 with best model
     val_probs = []
     val_preds = []
     all_labels = []
@@ -391,7 +403,7 @@ def train_one_target(target_label: str) -> RunArtifacts:
         predictions.append(
             {
                 "celebrity_id": cid,
-                "gold_label": id_to_label[gold_id],
+                "true_label": id_to_label[gold_id],
                 "pred_label": id_to_label[pred_id],
                 "probabilities": probs,
             }
