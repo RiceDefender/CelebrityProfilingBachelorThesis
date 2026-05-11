@@ -225,3 +225,26 @@ bertweet_v34_age_bins_path = os.path.join(
     bertweet_v34_metrics_dir,
     "birthyear_8range_bins.json",
 )
+
+# -------------------------------------------------------------------
+# Hybrid V4 model / outputs
+# -------------------------------------------------------------------
+hybrid_v4_model_dir = os.path.join(models_dir, "HybridV4")
+
+hybrid_v4_output_dir = os.path.join(outputs_dir, "hybrid_v4")
+hybrid_v4_bertweet_probs_dir = os.path.join(hybrid_v4_output_dir, "bertweet_probs")
+hybrid_v4_feature_dir = os.path.join(hybrid_v4_output_dir, "feature")
+hybrid_v4_feature_models_dir = os.path.join(hybrid_v4_feature_dir, "models")
+hybrid_v4_feature_predictions_dir = os.path.join(hybrid_v4_feature_dir, "predictions")
+hybrid_v4_feature_metrics_dir = os.path.join(hybrid_v4_feature_dir, "metrics")
+
+hybrid_v4_fusion_dir = os.path.join(hybrid_v4_output_dir, "fusion")
+hybrid_v4_fusion_datasets_dir = os.path.join(hybrid_v4_fusion_dir, "datasets")
+hybrid_v4_fusion_models_dir = os.path.join(hybrid_v4_fusion_dir, "models")
+hybrid_v4_fusion_predictions_dir = os.path.join(hybrid_v4_fusion_dir, "predictions")
+hybrid_v4_fusion_metrics_dir = os.path.join(hybrid_v4_fusion_dir, "metrics")
+
+# -------------------------------------------------------------------
+# Hybrid V4 splits
+# -------------------------------------------------------------------
+hybrid_v4_splits_dir = os.path.join(hybrid_v4_output_dir, "splits")
