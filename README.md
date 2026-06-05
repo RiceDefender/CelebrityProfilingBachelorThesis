@@ -6,8 +6,10 @@ This repository contains code and experiments for the PAN 2020 Celebrity Profili
 
 *   **`DataAnalyser/`**: Scripts for exploring and previewing the dataset.
 *   **`ExistingEvaluationCode/`**: Evaluation scripts and baseline code.
+*   **`Models/`**: Core implementations, training scripts, and configurations for the transformer models.
+*   **`ModifiedPriceHodgeCode/`**: Adapted scripts used for extracting sparse features and computing baseline metrics. This code is originally based on the implementation provided by Hodge and Price.
+*   **`Preprocessing/`**: Code for preprocessing the dataset into a format suitable for Hugging Face models.
 *   **`data/`**: Directory for training and test datasets (not included in version control).
-*  **`Preprocessing/`**: Code for preprocessing the dataset into a format suitable for Hugging Face models.
 
 ## Data
 
@@ -58,3 +60,4 @@ If memory errors occur:
 
 *   **Task Overview**: [PAN 2020 Celebrity Profiling Overview](https://ceur-ws.org/Vol-2696/paper_259.pdf)
 *   **Evaluation Code**: The code in `ExistingEvaluationCode/` is adapted from the official evaluation scripts provided at [Zenodo (Record 4461887)](https://zenodo.org/records/4461887).
+*   **Hodge & Price Baseline**: The scripts located in `ModifiedPriceHodgeCode/` are an adapted version of the original source code developed by A. Hodge and S. Price for their classical machine learning baseline approach in the Celebrity Profiling task.
