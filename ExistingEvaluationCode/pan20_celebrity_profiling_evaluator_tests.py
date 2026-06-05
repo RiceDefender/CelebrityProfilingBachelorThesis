@@ -21,7 +21,7 @@ class TestRecallPrecision(unittest.TestCase):
     def test_pr_age2(self):
         truth = [2008, 2009, 2010, 2011, 2012]
         predictions = [2008, 2008, 2008, 2008, 2008]
-        # after age_window_hit: predictions = [2008, 2009, 2008, 2008, 2008]
+        # after age_window_hit: predictions_v1 = [2008, 2009, 2008, 2008, 2008]
         prec, rec = pev.mc_prec_rec(predictions, truth, hit_function=pev.age_window_hit)
         self.assertEqual(mean([1/3, 1, 1, 0, 0]), mean(prec))
         self.assertEqual(mean([1, 1, 1, 0, 0]), mean(rec))
@@ -29,7 +29,7 @@ class TestRecallPrecision(unittest.TestCase):
     def test_pr_age3(self):
         truth = [1978, 1979, 1980, 1981, 1982, 1983, 1984]
         predictions = [1978, 1978, 1978, 1978, 1978, 1978, 1978]
-        # after age_window_hit: predictions = [1978, 1979, 1980, 1981, 1982, 1983, 1978]
+        # after age_window_hit: predictions_v1 = [1978, 1979, 1980, 1981, 1982, 1983, 1978]
         prec, rec = pev.mc_prec_rec(predictions, truth, hit_function=pev.age_window_hit)
         self.assertEqual(mean([1/2, 1, 1, 1, 1, 1, 0]), mean(prec))
         self.assertEqual(mean([1, 1, 1, 1, 1, 1, 0]), mean(rec))
