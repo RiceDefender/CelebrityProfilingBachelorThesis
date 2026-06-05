@@ -1,0 +1,13 @@
+MODEL_NAME = "sentence-transformers/all-MiniLM-L6-v2"
+
+MAX_FOLLOWERS = 3
+MAX_TWEETS_PER_FOLLOWER = 20
+MAX_CHARS = 10000
+
+INCLUDE_SUPP = False
+
+OUTPUT_DIRNAME = "sbert_vectors_chunked"
+NORMALIZE_EMBEDDINGS = True
+
+USE_CHUNKING = True
+TWEETS_PER_CHUNK = 12

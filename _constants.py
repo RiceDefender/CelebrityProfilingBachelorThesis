@@ -1,9 +1,13 @@
 import os
 
-# root directory
+# -------------------------------------------------------------------
+# Root
+# -------------------------------------------------------------------
 root_dir = os.path.dirname(os.path.abspath(__file__))
 
-# data directory
+# -------------------------------------------------------------------
+# Raw PAN data
+# -------------------------------------------------------------------
 data_dir = os.path.join(root_dir, "data")
 label_name = "labels.ndjson"
 follower_feeds_name = "follower-feeds.ndjson"
@@ -14,9 +18,7 @@ train_path = os.path.join(
     "pan20-celebrity-profiling-training-dataset-2020-02-28",
     "pan20-celebrity-profiling-training-dataset-2020-02-28"
 )
-# label training
 train_label_path = os.path.join(train_path, label_name)
-# follower feeds training
 train_feeds_path = os.path.join(train_path, follower_feeds_name)
 
 # supplement dataset
@@ -25,9 +27,7 @@ supp_path = os.path.join(
     "pan20-celebrity-profiling-supplement-dataset-2020-02-28",
     "pan20-celebrity-profiling-supplement-dataset-2020-02-28"
 )
-# label supplement
 supp_label_path = os.path.join(supp_path, label_name)
-# follower feeds supplement
 supp_feeds_path = os.path.join(supp_path, follower_feeds_name)
 
 # test dataset
@@ -36,10 +36,215 @@ test_path = os.path.join(
     "pan20-celebrity-profiling-test-dataset-2020-02-28",
     "pan20-celebrity-profiling-test-dataset-2020-02-28"
 )
-# label test
 test_label_path = os.path.join(test_path, label_name)
-# follower feeds test
 test_feeds_path = os.path.join(test_path, follower_feeds_name)
 
-# plot directory
+# -------------------------------------------------------------------
+# Existing analysis / comparison
+# -------------------------------------------------------------------
 plots_dir = os.path.join(root_dir, "plots")
+
+price_hodge_path = os.path.join(data_dir, "price_hodge")
+price_hodge_label_path = os.path.join(price_hodge_path, label_name)
+price_hodge_diff_path = os.path.join(price_hodge_path, "diff.txt")
+
+comparison_dir = os.path.join(root_dir, "comparison")
+comparison_plots_dir = os.path.join(comparison_dir, "plots")
+comparison_tables_dir = os.path.join(comparison_dir, "tables")
+
+# -------------------------------------------------------------------
+# Preprocessing directories
+# -------------------------------------------------------------------
+preprocessing_dir = os.path.join(root_dir, "Preprocessing")
+preprocessing_data_dir = os.path.join(preprocessing_dir, "data")
+
+tokenizers_dir = os.path.join(preprocessing_dir, "tokenizers")
+bert_tokenizer_dir = os.path.join(tokenizers_dir, "bert")
+
+# tokenized BERT outputs stay inside Preprocessing/data
+bert_processed_dir = os.path.join(preprocessing_data_dir, "bert_tokenized_chunked")
+bert_train_processed_dir = bert_processed_dir
+bert_test_processed_dir = bert_processed_dir
+bert_supp_processed_dir = bert_processed_dir
+
+bert_train_tokenized_path = os.path.join(bert_train_processed_dir, "train_tokenized.json")
+bert_test_tokenized_path = os.path.join(bert_test_processed_dir, "test_tokenized.json")
+bert_supp_tokenized_path = os.path.join(bert_supp_processed_dir, "supp_tokenized.json")
+
+# optional future metadata / debug files
+bert_train_meta_path = os.path.join(bert_train_processed_dir, "train_meta.json")
+bert_test_meta_path = os.path.join(bert_test_processed_dir, "test_meta.json")
+bert_supp_meta_path = os.path.join(bert_supp_processed_dir, "supp_meta.json")
+
+# -------------------------------------------------------------------
+# Model / evaluation directories
+# -------------------------------------------------------------------
+models_dir = os.path.join(root_dir, "Models")
+bert_model_dir = os.path.join(models_dir, "BERT")
+
+evaluation_dir = os.path.join(root_dir, "Evaluation")
+
+# -------------------------------------------------------------------
+# Training / inference outputs
+# -------------------------------------------------------------------
+outputs_dir = os.path.join(root_dir, "outputs")
+bert_output_dir = os.path.join(outputs_dir, "bert_mvp")
+bert_checkpoints_dir = os.path.join(bert_output_dir, "checkpoints")
+bert_logs_dir = os.path.join(bert_output_dir, "logs")
+bert_predictions_dir = os.path.join(bert_output_dir, "predictions")
+bert_metrics_dir = os.path.join(bert_output_dir, "metrics")
+
+# -------------------------------------------------------------------
+# SBERT preprocessing directories
+# -------------------------------------------------------------------
+sbert_vectorizer_dir = os.path.join(preprocessing_dir, "vectorizers", "sbert")
+
+sbert_processed_dir = os.path.join(preprocessing_data_dir, "sbert_vectors_chunked")
+sbert_train_processed_dir = sbert_processed_dir
+sbert_test_processed_dir = sbert_processed_dir
+sbert_supp_processed_dir = sbert_processed_dir
+
+sbert_train_vectors_path = os.path.join(sbert_train_processed_dir, "train_vectors.json")
+sbert_test_vectors_path = os.path.join(sbert_test_processed_dir, "test_vectors.json")
+sbert_supp_vectors_path = os.path.join(sbert_supp_processed_dir, "supp_vectors.json")
+
+sbert_train_meta_path = os.path.join(sbert_train_processed_dir, "train_meta.json")
+sbert_test_meta_path = os.path.join(sbert_test_processed_dir, "test_meta.json")
+sbert_supp_meta_path = os.path.join(sbert_supp_processed_dir, "supp_meta.json")
+
+# -------------------------------------------------------------------
+# SBERT model / outputs
+# -------------------------------------------------------------------
+sbert_model_dir = os.path.join(models_dir, "SBERT")
+
+sbert_output_dir = os.path.join(outputs_dir, "sbert_mvp")
+sbert_checkpoints_dir = os.path.join(sbert_output_dir, "checkpoints")
+sbert_logs_dir = os.path.join(sbert_output_dir, "logs")
+sbert_predictions_dir = os.path.join(sbert_output_dir, "predictions")
+sbert_metrics_dir = os.path.join(sbert_output_dir, "metrics")
+
+# -------------------------------------------------------------------
+# SBERT V2 model / outputs
+# Logistic Regression + Chunk Voting
+# -------------------------------------------------------------------
+sbert_v2_output_dir = os.path.join(outputs_dir, "sbert_v2")
+sbert_v2_checkpoints_dir = os.path.join(sbert_v2_output_dir, "checkpoints")
+sbert_v2_predictions_dir = os.path.join(sbert_v2_output_dir, "predictions")
+sbert_v2_metrics_dir = os.path.join(sbert_v2_output_dir, "metrics")
+sbert_v2_test_metrics_dir = os.path.join(sbert_v2_output_dir, "test_metrics")
+
+# -------------------------------------------------------------------
+# BERTweet preprocessing directories
+# -------------------------------------------------------------------
+bertweet_tokenizer_dir = os.path.join(tokenizers_dir, "bertweet")
+
+bertweet_processed_dir = os.path.join(preprocessing_data_dir, "bertweet_tokenized_chunked")
+bertweet_train_processed_dir = bertweet_processed_dir
+bertweet_test_processed_dir = bertweet_processed_dir
+bertweet_supp_processed_dir = bertweet_processed_dir
+
+bertweet_train_tokenized_path = os.path.join(
+    bertweet_train_processed_dir,
+    "train_tokenized.ndjson",
+)
+bertweet_test_tokenized_path = os.path.join(
+    bertweet_test_processed_dir,
+    "test_tokenized.ndjson",
+)
+bertweet_supp_tokenized_path = os.path.join(
+    bertweet_supp_processed_dir,
+    "supp_tokenized.ndjson",
+)
+
+bertweet_train_meta_path = os.path.join(bertweet_train_processed_dir, "train_meta.json")
+bertweet_test_meta_path = os.path.join(bertweet_test_processed_dir, "test_meta.json")
+bertweet_supp_meta_path = os.path.join(bertweet_supp_processed_dir, "supp_meta.json")
+
+# -------------------------------------------------------------------
+# BERTweet V3 model / outputs
+# -------------------------------------------------------------------
+bertweet_model_dir = os.path.join(models_dir, "BERTweet")
+
+bertweet_v3_output_dir = os.path.join(outputs_dir, "bertweet_v3")
+bertweet_v3_checkpoints_dir = os.path.join(bertweet_v3_output_dir, "checkpoints")
+bertweet_v3_logs_dir = os.path.join(bertweet_v3_output_dir, "logs")
+bertweet_v3_predictions_dir = os.path.join(bertweet_v3_output_dir, "predictions")
+bertweet_v3_metrics_dir = os.path.join(bertweet_v3_output_dir, "metrics")
+bertweet_v3_test_metrics_dir = os.path.join(bertweet_v3_output_dir, "test_metrics")
+
+# -------------------------------------------------------------------
+# BERTweet V3.4 stopword-filtered preprocessing directories
+# -------------------------------------------------------------------
+bertweet_v34_processed_dir = os.path.join(
+    preprocessing_data_dir,
+    "bertweet_v3_4_stopwords_tokenized_chunked",
+)
+bertweet_v34_train_processed_dir = bertweet_v34_processed_dir
+bertweet_v34_test_processed_dir = bertweet_v34_processed_dir
+bertweet_v34_supp_processed_dir = bertweet_v34_processed_dir
+
+bertweet_v34_train_tokenized_path = os.path.join(
+    bertweet_v34_train_processed_dir,
+    "train_tokenized.ndjson",
+)
+bertweet_v34_test_tokenized_path = os.path.join(
+    bertweet_v34_test_processed_dir,
+    "test_tokenized.ndjson",
+)
+bertweet_v34_supp_tokenized_path = os.path.join(
+    bertweet_v34_supp_processed_dir,
+    "supp_tokenized.ndjson",
+)
+
+bertweet_v34_train_meta_path = os.path.join(
+    bertweet_v34_train_processed_dir,
+    "train_meta.json",
+)
+bertweet_v34_test_meta_path = os.path.join(
+    bertweet_v34_test_processed_dir,
+    "test_meta.json",
+)
+bertweet_v34_supp_meta_path = os.path.join(
+    bertweet_v34_supp_processed_dir,
+    "supp_meta.json",
+)
+
+# -------------------------------------------------------------------
+# BERTweet V3.4 stopword-filtered model / outputs
+# -------------------------------------------------------------------
+bertweet_v34_model_dir = os.path.join(models_dir, "BERTweetV34")
+
+bertweet_v34_output_dir = os.path.join(outputs_dir, "bertweet_v3_4_stopwords")
+bertweet_v34_checkpoints_dir = os.path.join(bertweet_v34_output_dir, "checkpoints")
+bertweet_v34_logs_dir = os.path.join(bertweet_v34_output_dir, "logs")
+bertweet_v34_predictions_dir = os.path.join(bertweet_v34_output_dir, "predictions")
+bertweet_v34_metrics_dir = os.path.join(bertweet_v34_output_dir, "metrics")
+bertweet_v34_test_metrics_dir = os.path.join(bertweet_v34_output_dir, "test_metrics")
+
+bertweet_v34_age_bins_path = os.path.join(
+    bertweet_v34_metrics_dir,
+    "birthyear_8range_bins.json",
+)
+
+# -------------------------------------------------------------------
+# Hybrid V4 model / outputs
+# -------------------------------------------------------------------
+hybrid_v4_model_dir = os.path.join(models_dir, "HybridV4")
+
+hybrid_v4_output_dir = os.path.join(outputs_dir, "hybrid_v4")
+hybrid_v4_bertweet_probs_dir = os.path.join(hybrid_v4_output_dir, "bertweet_probs")
+hybrid_v4_feature_dir = os.path.join(hybrid_v4_output_dir, "feature")
+hybrid_v4_feature_models_dir = os.path.join(hybrid_v4_feature_dir, "models")
+hybrid_v4_feature_predictions_dir = os.path.join(hybrid_v4_feature_dir, "predictions")
+hybrid_v4_feature_metrics_dir = os.path.join(hybrid_v4_feature_dir, "metrics")
+
+hybrid_v4_fusion_dir = os.path.join(hybrid_v4_output_dir, "fusion")
+hybrid_v4_fusion_datasets_dir = os.path.join(hybrid_v4_fusion_dir, "datasets")
+hybrid_v4_fusion_models_dir = os.path.join(hybrid_v4_fusion_dir, "models")
+hybrid_v4_fusion_predictions_dir = os.path.join(hybrid_v4_fusion_dir, "predictions")
+hybrid_v4_fusion_metrics_dir = os.path.join(hybrid_v4_fusion_dir, "metrics")
+
+# -------------------------------------------------------------------
+# Hybrid V4 splits
+# -------------------------------------------------------------------
+hybrid_v4_splits_dir = os.path.join(hybrid_v4_output_dir, "splits")

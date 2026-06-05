@@ -6,3 +6,6 @@ venv/
 .env
 .idea/
 plots/
+comparison/
+ExistingEvaluationCode/labels.ndjson
+outputs/

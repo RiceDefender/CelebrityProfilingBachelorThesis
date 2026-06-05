@@ -1,0 +1,17 @@
+# Used for orchestration and data processing
+transformers>=5.5.0
+scikit-learn>=1.8.0
+
+# Used for sentence embeddings
+sentence-transformers>=2.7.0
+torch>=2.7.0
+# pip install torch --index-url https://download.pytorch.org/whl/cu118 for CUDA support
+
+# Used in preprocessing and data analysis
+matplotlib>=3.10.8
+
+# Progress bars
+tqdm>=4.66.0
+
+# Numpy for numerical operations (opencv-python 4.12.0.88 requires numpy<2.3.0,>=2)
+numpy==2.2.6
