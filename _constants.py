@@ -171,3 +171,80 @@ bertweet_v3_logs_dir = os.path.join(bertweet_v3_output_dir, "logs")
 bertweet_v3_predictions_dir = os.path.join(bertweet_v3_output_dir, "predictions")
 bertweet_v3_metrics_dir = os.path.join(bertweet_v3_output_dir, "metrics")
 bertweet_v3_test_metrics_dir = os.path.join(bertweet_v3_output_dir, "test_metrics")
+
+# -------------------------------------------------------------------
+# BERTweet V3.4 stopword-filtered preprocessing directories
+# -------------------------------------------------------------------
+bertweet_v34_processed_dir = os.path.join(
+    preprocessing_data_dir,
+    "bertweet_v3_4_stopwords_tokenized_chunked",
+)
+bertweet_v34_train_processed_dir = bertweet_v34_processed_dir
+bertweet_v34_test_processed_dir = bertweet_v34_processed_dir
+bertweet_v34_supp_processed_dir = bertweet_v34_processed_dir
+
+bertweet_v34_train_tokenized_path = os.path.join(
+    bertweet_v34_train_processed_dir,
+    "train_tokenized.ndjson",
+)
+bertweet_v34_test_tokenized_path = os.path.join(
+    bertweet_v34_test_processed_dir,
+    "test_tokenized.ndjson",
+)
+bertweet_v34_supp_tokenized_path = os.path.join(
+    bertweet_v34_supp_processed_dir,
+    "supp_tokenized.ndjson",
+)
+
+bertweet_v34_train_meta_path = os.path.join(
+    bertweet_v34_train_processed_dir,
+    "train_meta.json",
+)
+bertweet_v34_test_meta_path = os.path.join(
+    bertweet_v34_test_processed_dir,
+    "test_meta.json",
+)
+bertweet_v34_supp_meta_path = os.path.join(
+    bertweet_v34_supp_processed_dir,
+    "supp_meta.json",
+)
+
+# -------------------------------------------------------------------
+# BERTweet V3.4 stopword-filtered model / outputs
+# -------------------------------------------------------------------
+bertweet_v34_model_dir = os.path.join(models_dir, "BERTweetV34")
+
+bertweet_v34_output_dir = os.path.join(outputs_dir, "bertweet_v3_4_stopwords")
+bertweet_v34_checkpoints_dir = os.path.join(bertweet_v34_output_dir, "checkpoints")
+bertweet_v34_logs_dir = os.path.join(bertweet_v34_output_dir, "logs")
+bertweet_v34_predictions_dir = os.path.join(bertweet_v34_output_dir, "predictions")
+bertweet_v34_metrics_dir = os.path.join(bertweet_v34_output_dir, "metrics")
+bertweet_v34_test_metrics_dir = os.path.join(bertweet_v34_output_dir, "test_metrics")
+
+bertweet_v34_age_bins_path = os.path.join(
+    bertweet_v34_metrics_dir,
+    "birthyear_8range_bins.json",
+)
+
+# -------------------------------------------------------------------
+# Hybrid V4 model / outputs
+# -------------------------------------------------------------------
+hybrid_v4_model_dir = os.path.join(models_dir, "HybridV4")
+
+hybrid_v4_output_dir = os.path.join(outputs_dir, "hybrid_v4")
+hybrid_v4_bertweet_probs_dir = os.path.join(hybrid_v4_output_dir, "bertweet_probs")
+hybrid_v4_feature_dir = os.path.join(hybrid_v4_output_dir, "feature")
+hybrid_v4_feature_models_dir = os.path.join(hybrid_v4_feature_dir, "models")
+hybrid_v4_feature_predictions_dir = os.path.join(hybrid_v4_feature_dir, "predictions")
+hybrid_v4_feature_metrics_dir = os.path.join(hybrid_v4_feature_dir, "metrics")
+
+hybrid_v4_fusion_dir = os.path.join(hybrid_v4_output_dir, "fusion")
+hybrid_v4_fusion_datasets_dir = os.path.join(hybrid_v4_fusion_dir, "datasets")
+hybrid_v4_fusion_models_dir = os.path.join(hybrid_v4_fusion_dir, "models")
+hybrid_v4_fusion_predictions_dir = os.path.join(hybrid_v4_fusion_dir, "predictions")
+hybrid_v4_fusion_metrics_dir = os.path.join(hybrid_v4_fusion_dir, "metrics")
+
+# -------------------------------------------------------------------
+# Hybrid V4 splits
+# -------------------------------------------------------------------
+hybrid_v4_splits_dir = os.path.join(hybrid_v4_output_dir, "splits")
