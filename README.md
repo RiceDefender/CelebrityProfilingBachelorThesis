@@ -60,4 +60,4 @@ If memory errors occur:
 
 *   **Task Overview**: [PAN 2020 Celebrity Profiling Overview](https://ceur-ws.org/Vol-2696/paper_259.pdf)
 *   **Evaluation Code**: The code in `ExistingEvaluationCode/` is adapted from the official evaluation scripts provided at [Zenodo (Record 4461887)](https://zenodo.org/records/4461887).
-*   **Hodge & Price Baseline**: The scripts located in `ModifiedPriceHodgeCode/` are an adapted version of the original source code developed by A. Hodge and S. Price for their classical machine learning baseline approach in the Celebrity Profiling task.
+*   **Hodge & Price Baseline**: The scripts located in `ModifiedPriceHodgeCode/` are an adapted version of the original source code developed by A. Hodge and S. Price for their classical machine learning baseline approach in the [Celebrity Profiling task](https://ceur-ws.org/Vol-2696/paper_230.pdf).
